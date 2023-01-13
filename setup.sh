@@ -171,6 +171,13 @@ function setup_gophish () {
     print_good "Configured gophish!"
 }
 
+function create_certs() {
+    
+    # Create certs
+    certbot certonly --manual --preferred-challenges=dns --email admin@${root_domain} --server https://acme-v02.api.letsencrypt.org/directory --agree-tos -d '*.${root_domain}' -d '${root_domain}'
+
+}
+
 function main () {
     check_privs
     install_depends
@@ -178,6 +185,7 @@ function main () {
     setup_apache
     setup_gophish
     setup_evilginx2
+    create_certs()
     print_good "Installation complete! When ready start apache with: systemctl restart apache2"
     print_info "It is recommended to run all servers inside a tmux session to avoid losing them over SSH!"
 }
